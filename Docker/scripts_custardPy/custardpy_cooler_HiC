@@ -68,7 +68,7 @@ while getopts "i:g:f:e:b:o:q:p:S:m:n:r:x:h" opt; do
                 ;;
             *)
                 echo "Error: Specify 1 or 2 to the option '-x'."
-                printHelpAndExi
+                printHelpAndExit
                 exit 1
                 ;;
            esac
