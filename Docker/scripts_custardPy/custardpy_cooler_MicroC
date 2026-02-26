@@ -64,8 +64,8 @@ while getopts "i:t:g:f:o:q:p:S:m:n:r:hx:" opt; do
                 postfix2=_R2.fastq.gz
                 ;;
             *)
-                echo "Error: Specify 1 or 2 to the option '-p'."
-                usage
+                echo "Error: Specify 1 or 2 to the option '-x'."
+                printHelpAndExi
                 exit 1
                 ;;
            esac
