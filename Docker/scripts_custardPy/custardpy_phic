@@ -28,7 +28,9 @@ echo "Start 4D simulation by PHi-C..."
 cell=$start-$end
 dir=$odir/4dmodel/$resolution/$chr/
 mkdir -p $dir
-strawMatrixFromHiC.py $hic $dir/$cell.txt $chr --start $start --end $end --dense
+
+strawMatrixFromHiC.py $hic $dir/$cell.txt $chr --start $start --end $end --resolution $resolution --norm $norm --dense
+#strawMatrixFromHiC.py $hic $dir/$cell.txt $chr --start $start --end $end --dense
 phic preprocessing --input $dir/$cell.txt --res $resolution --plt-max-c 0.1
 #for prefix in C_normalized P_normalized
 #do
