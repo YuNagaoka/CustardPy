@@ -2,13 +2,13 @@
 set -euo pipefail
 
 printHelpAndExit() {
-    echo "Usage: ${0##*/} <outputdir> <hic> <chr> <start> <end> <resolution> <norm> [tolerance]"
+    echo "Usage: ${0##*/} <outputdir> <hic> <chr> <start> <end> <resolution> <norm> <tolerance>"
     echo "  <outputdir>: directory where the PHi-C2 output directory will be created"
     echo "  <hic>: input Hi-C file (.hic or .mcool)"
     echo "  <chr> <start> <end>: chromosome, start and end positions for simulation"
     echo "  <resolution>: resolution of the matrix"
     echo "  <norm>: normalization type (NONE|VC|VC_SQRT|KR|SCALE)"
-    echo "  [tolerance]: NaN filtering threshold for phic preprocessing (default: 0.4)"
+    echo "  <tolerance>: NaN filtering threshold for phic preprocessing (default: 0.4)"
     echo "  Example:"
     echo "     ${0##*/} JuicerResults/sample1 JuicerResults/sample1/aligned/inter_30.hic 21 24000000 32000000 25000 KR 0.4"
     exit 0
