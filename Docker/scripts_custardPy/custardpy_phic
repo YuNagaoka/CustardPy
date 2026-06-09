@@ -32,6 +32,10 @@ plt_max_k=0.1
 interval=100
 frame=1000
 sample=1000
+findfont_warning="findfont: Font family 'Arial' not found."
+filter_findfont_stderr() {
+    grep -Fv "$findfont_warning" >&2 || true
+}
 
 mkdir -p "$odir"
 cd "$odir"
@@ -55,21 +59,25 @@ phic preprocessing \
     --tolerance "$tolerance"
 
 phic optimization --name "$name"
-phic plot-optimization --name "$name" --plt-max-c "$plt_max_c" --plt-max-k "$plt_max_k"
+phic plot-optimization --name "$name" --plt-max-c "$plt_max_c" --plt-max-k "$plt_max_k" \
+    2> >(filter_findfont_stderr)
 phic dynamics --name "$name" --interval "$interval" --frame "$frame"
 phic sampling --name "$name" --sample "$sample"
 echo "done."
 
 echo "Estimate dynamics-derived spectra..."
 phic msd --name "$name"
-phic plot-msd --name "$name" --plt-upper 3 --plt-lower 0 --plt-max-log 2.0 --plt-min-log 0.5 --aspect 1.5
+phic plot-msd --name "$name" --plt-upper 3 --plt-lower 0 --plt-max-log 2.0 --plt-min-log 0.5 --aspect 1.5 \
+    2> >(filter_findfont_stderr)
 phic losstangent --name "$name"
-phic plot-losstangent --name "$name" --plt-upper 0 --plt-lower -3 --plt-max-log 0.3 --aspect 1.5
+phic plot-losstangent --name "$name" --plt-upper 0 --plt-lower -3 --plt-max-log 0.3 --aspect 1.5 \
+    2> >(filter_findfont_stderr)
 echo "done."
 
 echo "Generate Hi-C map movie..."
 N=$(( (end - start) / resolution + 1 ))
-plot_distance_map.py "$name/data_dynamics/sample0.xyz" "$N" "$frame" "$name/distance_map/"
+plot_distance_map.py "$name/data_dynamics/sample0.xyz" "$N" "$frame" "$name/distance_map/" \
+    2> >(filter_findfont_stderr)
 
 if command -v ffmpeg >/dev/null 2>&1; then
     ffmpeg -framerate 24 -i "$name/distance_map/frame_%04d.jpg" -pix_fmt yuv420p \
