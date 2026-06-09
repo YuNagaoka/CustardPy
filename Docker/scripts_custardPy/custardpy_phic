@@ -32,9 +32,8 @@ plt_max_k=0.1
 interval=100
 frame=1000
 sample=1000
-findfont_warning="findfont: Font family 'Arial' not found."
 filter_findfont_stderr() {
-    grep -Fv "$findfont_warning" >&2 || true
+    grep -Ev "^findfont: .*Arial.*" >&2 || true
 }
 
 mkdir -p "$odir"
