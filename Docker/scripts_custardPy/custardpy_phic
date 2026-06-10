@@ -55,7 +55,8 @@ phic preprocessing \
     --grs "$start" \
     --gre "$end" \
     --norm "$norm" \
-    --tolerance "$tolerance"
+    --tolerance "$tolerance" \
+    2> >(filter_findfont_stderr)
 
 phic optimization --name "$name"
 phic plot-optimization --name "$name" --plt-max-c "$plt_max_c" --plt-max-k "$plt_max_k" \
