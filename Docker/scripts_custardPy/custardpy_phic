@@ -80,7 +80,11 @@ plot_distance_map.py "$name/data_dynamics/sample0.xyz" "$N" "$frame" "$name/dist
     2> >(filter_findfont_stderr)
 
 if command -v ffmpeg >/dev/null 2>&1; then
-    ffmpeg -framerate 24 -i "$name/distance_map/frame_%04d.jpg" -pix_fmt yuv420p \
+    # Strip Singularity-injected GPU library paths from LD_LIBRARY_PATH to prevent
+    # host libs (libOpenCL, libGL) requiring newer GLIBC from being loaded.
+    _clean_ld=$(echo "${LD_LIBRARY_PATH:-}" | tr ':' '\n' | grep -v '^/.singularity\.d' | paste -sd ':')
+    LD_LIBRARY_PATH="$_clean_ld" ffmpeg \
+          -framerate 24 -i "$name/distance_map/frame_%04d.jpg" -pix_fmt yuv420p \
           -c:v libx264 -preset slow -crf 24 -r 24 \
           -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
           "$name/distance_map/movie.mp4"
